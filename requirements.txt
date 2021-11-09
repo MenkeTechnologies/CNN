@@ -1,0 +1,12 @@
+numpy
+pip
+pandas
+matplotlib
+Keras
+h5py
+pillow
+scikit-learn
+scipy
+tensorboard
+tensorflow
+joblib
