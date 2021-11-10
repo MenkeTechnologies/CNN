@@ -2,8 +2,8 @@ from pathlib import Path
 
 from keras.preprocessing import image
 
-from models import *
-
+from const import *
+import models
 
 def to_ms_unit(raw):
     return f"{to_ms(raw)}ms"
@@ -23,7 +23,7 @@ def load_img(images):
         abs_path = Path(IMAGE_DIR) / filename
 
         li.append(
-            ImageFileToNumPyAry(
+            models.ImageFileToNumPyAry(
                 filename,
                 image.img_to_array(image.load_img(abs_path, target_size=(224, 224))),
                 image.img_to_array(image.load_img(abs_path, target_size=(299, 299))),

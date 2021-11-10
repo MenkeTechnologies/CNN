@@ -1,7 +1,7 @@
 import numpy as np
 
 from const import *
-from src.util import *
+from util import to_ms
 
 
 class ImageFileToNumPyAry:
@@ -93,11 +93,18 @@ class ModelWrapper:
         self.processor = processor
         self.decode = decode
         self.processed = None
+        self.to_process = None
         self.dim = dim
         self.results = ResultsWrapper()
 
-    def process_single(self, image):
-        self.processed = self.processor(np.expand_dims(image, axis=0))
+    def process_single(self, images=None):
+        if self.to_process is None:
+            self.processed = self.processor(np.expand_dims(images, axis=0))
+        else:
+            self.processed = self.processor(np.expand_dims(self.to_process, axis=0))
 
-    def process_mult(self, images):
-        self.processed = self.processor(np.array(images))
+    def process_mult(self, images=None):
+        if self.to_process is None:
+            self.processed = self.processor(np.array(images))
+        else:
+            self.processed = self.processor(np.array(self.to_process))

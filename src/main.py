@@ -8,7 +8,9 @@ from keras.applications import vgg16
 from keras.applications import vgg19
 from keras.applications import xception
 
-from util import *
+from const import *
+from models import ModelWrapper
+from util import load_img, to_ms_unit
 
 logging.basicConfig(level=LOG_LVL)
 logger = logging.getLogger('cnn_timer')
@@ -31,19 +33,25 @@ MODELS = {
 
 
 def main():
+    preprocess()
     for it in range(ITER):
         process_iter(it)
     write_csv()
 
 
-def process_iter(it):
-    logger.info(f"ITER: {it + 1}")
+def preprocess():
     for model_name, model_wrapper in MODELS.items():
         imgs = []
         for img in TEST_IMG_WRAPPERS:
             imgs.append(img.img_for_dim(model_wrapper.dim))
+        model_wrapper.to_process = imgs
+
+
+def process_iter(it):
+    logger.info(f"ITER: {it + 1}")
+    for model_name, model_wrapper in MODELS.items():
         start = time_ns()
-        model_wrapper.process_mult(imgs)
+        model_wrapper.process_mult()
         raw_out = model_wrapper.model.predict(model_wrapper.processed)
         predicted = model_wrapper.decode(raw_out)
         elapsed = time_ns() - start
