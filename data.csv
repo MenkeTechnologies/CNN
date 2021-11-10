@@ -1,0 +1,42 @@
+Model Name,Average Time(ms)
+VGG16,416.17
+VGG19,456.71
+MobileNetV2,195.57
+InceptionResNetV2,971.46
+DenseNet,888.44
+Xception,379.86
+NASNet,1559.18
+
+traffic_light.png
+
+Model Name/Label,Probability
+VGG16/traffic_light,0.95
+VGG19/traffic_light,0.97
+MobileNetV2/traffic_light,0.83
+InceptionResNetV2/traffic_light,0.83
+DenseNet/traffic_light,0.84
+Xception/traffic_light,0.80
+NASNet/traffic_light,0.83
+
+stop.png
+
+Model Name/Label,Probability
+VGG16/street_sign,0.22
+VGG19/traffic_light,0.20
+MobileNetV2/street_sign,0.68
+InceptionResNetV2/street_sign,0.35
+DenseNet/street_sign,0.89
+Xception/street_sign,0.83
+NASNet/street_sign,0.73
+
+sedan.png
+
+Model Name/Label,Probability
+VGG16/pickup,0.56
+VGG19/sports_car,0.36
+MobileNetV2/sports_car,0.57
+InceptionResNetV2/sports_car,0.58
+DenseNet/sports_car,0.80
+Xception/sports_car,0.72
+NASNet/sports_car,0.62
+

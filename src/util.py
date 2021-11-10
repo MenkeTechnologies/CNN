@@ -8,6 +8,7 @@ from models import *
 def to_ms_unit(raw):
     return f"{to_ms(raw)}ms"
 
+
 def to_ms(raw):
     return f"{raw * NS_TO_MS:.2f}"
 
@@ -21,10 +22,12 @@ def load_img(images):
     for filename in images:
         abs_path = Path(IMAGE_DIR) / filename
 
-        li.append(ImageFileToNumPyAry(
-            filename,
-            image.img_to_array(image.load_img(abs_path, target_size=(224, 224))),
-            image.img_to_array(image.load_img(abs_path, target_size=(299, 299))),
-            image.img_to_array(image.load_img(abs_path, target_size=(331, 331)))
-        ))
+        li.append(
+            ImageFileToNumPyAry(
+                filename,
+                image.img_to_array(image.load_img(abs_path, target_size=(224, 224))),
+                image.img_to_array(image.load_img(abs_path, target_size=(299, 299))),
+                image.img_to_array(image.load_img(abs_path, target_size=(331, 331)))
+            )
+        )
     return li

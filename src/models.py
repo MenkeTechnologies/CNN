@@ -17,9 +17,30 @@ class ImageFileToNumPyAry:
         return self.__dim_map[dim]
 
 
-class Results:
+class TimeResults:
     def __init__(self):
         self.__times = []
+
+    def add_time(self, time):
+        self.__times.append(time)
+
+    def get_time_ms_avg(self):
+        tot = 0
+        for t in self.__times:
+            tot += t
+
+        return to_ms(tot / len(self.__times))
+
+    def get_time_ns_avg(self):
+        tot = 0
+        for t in self.__times:
+            tot += t
+
+        return tot / len(self.__times)
+
+
+class PredictionResults:
+    def __init__(self):
         self.__map_sum = {}
         self.__map_cnt = {}
 
@@ -28,9 +49,6 @@ class Results:
         cnt = self.__map_cnt.get(label, 0)
         self.__map_sum[label] = tot_prob + prob
         self.__map_cnt[label] = cnt + 1
-
-    def add_time(self, time):
-        self.__times.append(time)
 
     def get_label_avg(self):
         map_avg = {}
@@ -53,29 +71,20 @@ class Results:
     def get_iter(self, label):
         return self.__map_cnt[label]
 
-    def get_time_ms_avg(self):
-        tot = 0
-        for t in self.__times:
-            tot += t
-
-        return to_ms(tot / len(self.__times))
-
-    def get_time_ns_avg(self):
-        tot = 0
-        for t in self.__times:
-            tot += t
-
-        return tot / len(self.__times)
-
 
 class ResultsWrapper:
     def __init__(self):
+        self.__results_time = TimeResults()
+
         self.__results = {}
         for img in TEST_IMG_FILENAMES:
-            self.__results[img] = Results()
+            self.__results[img] = PredictionResults()
 
     def for_img(self, image):
         return self.__results[image]
+
+    def time_results(self):
+        return self.__results_time
 
 
 class ModelWrapper:
@@ -91,4 +100,4 @@ class ModelWrapper:
         self.processed = self.processor(np.expand_dims(image, axis=0))
 
     def process_mult(self, images):
-        self.processed = self.processor(images)
+        self.processed = self.processor(np.array(images))

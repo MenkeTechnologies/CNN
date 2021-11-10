@@ -39,35 +39,40 @@ def main():
 def process_iter(it):
     logger.info(f"ITER: {it + 1}")
     for model_name, model_wrapper in MODELS.items():
-        for image in TEST_IMG_WRAPPERS:
-            start = time_ns()
-            model_wrapper.process_single(image.img_for_dim(model_wrapper.dim))
-            raw_out = model_wrapper.model.predict(model_wrapper.processed)
-            predicted = model_wrapper.decode(raw_out)[0]
-            elapsed = time_ns() - start
-            model_wrapper.results.for_img(image.filename).add_time(elapsed)
-            logger.info(f"Model: {model_name}, image: {image.filename}, duration: {to_ms_unit(elapsed)}")
+        imgs = []
+        for img in TEST_IMG_WRAPPERS:
+            imgs.append(img.img_for_dim(model_wrapper.dim))
+        start = time_ns()
+        model_wrapper.process_mult(imgs)
+        raw_out = model_wrapper.model.predict(model_wrapper.processed)
+        predicted = model_wrapper.decode(raw_out)
+        elapsed = time_ns() - start
+        model_wrapper.results.time_results().add_time(elapsed)
 
-            for imagenet_id, label, likelihood in predicted:
+        logger.info(f"Model: {model_name}, duration: {to_ms_unit(elapsed)}")
+        for idx, it in enumerate(predicted):
+            logger.info(f"{TEST_IMG_FILENAMES[idx]}:")
+            for imagenet_id, label, likelihood in it:
                 logger.info(f"Prediction: {label} - {likelihood:.2f}")
-                model_wrapper.results.for_img(image.filename).add_prediction(label, likelihood)
-            logger.info("")
+                model_wrapper.results.for_img(TEST_IMG_FILENAMES[idx]).add_prediction(label, likelihood)
+        logger.info("")
 
 
 def write_csv():
-    out = ""
+    out = f"Model Name{SEP}Average Time(ms)\n"
+    for model_name, model_wrapper in MODELS.items():
+        ti = model_wrapper.results.time_results().get_time_ms_avg()
+        out += f"{model_name}{SEP}{ti}\n"
+    out += "\n"
+
     for image_filename in TEST_IMG_FILENAMES:
         out += f"{image_filename}\n"
-        out += "Model Name,Average Time(ms)\n"
-        for model_name, model_wrapper in MODELS.items():
-            ti = model_wrapper.results.for_img(image_filename).get_time_ms_avg()
-            out += f"{model_name},{ti}\n"
 
-        out += "\nModel Name/Label,Probability\n"
+        out += f"\nModel Name{PRETTY_SEP}Label{SEP}Probability\n"
 
         for model_name, model_wrapper in MODELS.items():
             highest = model_wrapper.results.for_img(image_filename).get_label_highest()
-            out += f"{model_name}/{highest[0]},{highest[1]}\n"
+            out += f"{model_name}{PRETTY_SEP}{highest[0]}{SEP}{highest[1]}\n"
         out += "\n"
     logger.info("")
     with open(OUTPUT_CSV, "w") as f:

@@ -1,7 +1,7 @@
 import logging
 
 TRAFFIC_LIGHT_PNG = "traffic_light.png"
-STOP_PNG = "stop.png"
+STOP_PNG = "stop_sign.png"
 SEDAN_PNG = "sedan.png"
 
 TEST_IMG_FILENAMES = [
@@ -11,10 +11,13 @@ TEST_IMG_FILENAMES = [
 ]
 
 LOG_LVL = logging.INFO
-ITER = 2
+ITER = 5
 
 NS_TO_MS = 1 / 1e6
 NS_TO_S = 1 / 1e9
+
+PRETTY_SEP = "/"
+SEP = ","
 
 D_224 = 224
 D_229 = 299
