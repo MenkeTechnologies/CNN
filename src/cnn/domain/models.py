@@ -1,7 +1,6 @@
 import numpy as np
 
-from const import *
-from util import to_ms
+from cnn.util.utils import *
 
 
 class ImageFileToNumPyAry:

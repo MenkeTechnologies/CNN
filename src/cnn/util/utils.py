@@ -2,8 +2,8 @@ from pathlib import Path
 
 from keras.preprocessing import image
 
-from const import *
-import models
+from cnn.domain import models
+from cnn.util.const import *
 
 def to_ms_unit(raw):
     return f"{to_ms(raw)}ms"
