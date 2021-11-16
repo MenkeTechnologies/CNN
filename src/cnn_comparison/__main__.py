@@ -8,9 +8,9 @@ from keras.applications import vgg16
 from keras.applications import vgg19
 from keras.applications import xception
 
-from cnn.domain.models import ModelWrapper
-from cnn.util.utils import *
-from cnn.util.const import *
+from cnn_comparison.domain.models import ModelWrapper
+from cnn_comparison.util.utils import *
+from cnn_comparison.util.const import *
 
 logging.basicConfig(level=LOG_LVL)
 logger = logging.getLogger('cnn_timer')
@@ -88,3 +88,6 @@ def write_csv():
 
 
 main()
+
+if __name__ == "__main__":
+    main()

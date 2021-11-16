@@ -1,6 +1,6 @@
 import numpy as np
 
-from cnn.util.utils import *
+from cnn_comparison.util.utils import *
 
 
 class ImageFileToNumPyAry:

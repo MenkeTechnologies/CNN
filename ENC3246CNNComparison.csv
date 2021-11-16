@@ -1,11 +1,11 @@
 Model Name,Average Time(ms)
-VGG16,358.22
-VGG19,401.92
-MobileNetV2,162.44
-InceptionResNetV2,734.51
-DenseNet,747.71
-Xception,319.80
-NASNet,1327.36
+VGG16,511.02
+VGG19,619.43
+MobileNetV2,149.74
+InceptionResNetV2,730.89
+DenseNet,632.96
+Xception,408.93
+NASNet,1498.69
 
 traffic_light.png
 
