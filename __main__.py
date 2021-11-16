@@ -8,14 +8,14 @@ from keras.applications import vgg16
 from keras.applications import vgg19
 from keras.applications import xception
 
+from cnn_comparison import MODULE_ROOT_DIR
 from cnn_comparison.domain.models import ModelWrapper
 from cnn_comparison.util.utils import *
-from cnn_comparison.util.const import *
 
 logging.basicConfig(level=LOG_LVL)
 logger = logging.getLogger('cnn_timer')
 
-TEST_IMG_WRAPPERS = load_img(TEST_IMG_FILENAMES)
+TEST_IMG_WRAPPERS = load_img(TEST_IMG_FILENAMES, MODULE_ROOT_DIR)
 
 MODELS = {
     VGG_16: ModelWrapper(vgg16.VGG16(), vgg16.preprocess_input, vgg16.decode_predictions, D_224),
@@ -83,11 +83,10 @@ def write_csv():
             out += f"{model_name}{PRETTY_SEP}{highest[0]}{SEP}{highest[1]}\n"
         out += "\n"
     logger.info("")
-    with open(OUTPUT_CSV, "w") as f:
+    with open(os.path.join(MODULE_ROOT_DIR, OUTPUT_CSV), "w") as f:
         f.write(out)
 
 
-main()
-
 if __name__ == "__main__":
+    logger.info("init...")
     main()

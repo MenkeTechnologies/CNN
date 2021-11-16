@@ -22,7 +22,7 @@ MODELS = {
 
 ```
 python3 -m pip install -r requirements.txt
-PYTHONPATH='src' python3 -m cnn_comparison
+PYTHONPATH='..' python3 -m cnn_comparison
 ```
 
 CSV output file = ENC3246CNNComparison.csv

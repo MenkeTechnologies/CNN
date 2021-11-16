@@ -1,9 +1,10 @@
-from pathlib import Path
+import os
 
 from keras.preprocessing import image
 
 from cnn_comparison.domain import models
 from cnn_comparison.util.const import *
+
 
 def to_ms_unit(raw):
     return f"{to_ms(raw)}ms"
@@ -17,10 +18,10 @@ def to_s(raw):
     return f"{raw * NS_TO_S:.2f}s"
 
 
-def load_img(images):
+def load_img(images, MODULE_ROOT_DIR):
     li = []
     for filename in images:
-        abs_path = Path(IMAGE_DIR) / filename
+        abs_path = os.path.join(MODULE_ROOT_DIR, IMAGE_DIR, filename)
 
         li.append(
             models.ImageFileToNumPyAry(
